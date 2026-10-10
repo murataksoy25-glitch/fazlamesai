@@ -1,0 +1,14 @@
+const assert=require('node:assert/strict');const {delta,duration,days}=require('./dist/calc.js');
+const r=(date,type,minutes)=>({date,type,minutes});
+assert.equal(delta(r('2026-10-09','work',600)),120);
+assert.equal(delta(r('2026-10-09','work',360)),-120);
+assert.equal(delta(r('2026-10-09','work',480)),0);
+assert.equal(delta(r('2026-10-10','work',61)),61);
+assert.equal(delta(r('2026-10-11','work',1)),1);
+assert.equal(delta(r('2026-10-09','normal',480)),0);
+assert.equal(delta(r('2026-10-10','normal',480)),0);
+assert.equal(delta(r('2026-10-09','overtime',480)),-480);
+assert.equal(delta(r('2026-10-10','overtime',61)),-61);
+assert.equal(days(601),'1 gün 2 sa 1 dk');assert.equal(duration(-61),'−1 sa 1 dk');
+assert.equal([r('2026-10-09','work',600),r('2026-10-10','work',361),r('2026-10-11','overtime',480)].reduce((s,r)=>s+delta(r),0),1);
+console.log('12 hesaplama kontrolü geçti.');
